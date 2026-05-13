@@ -9,9 +9,15 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-I",
+<<<<<<< HEAD
                 "${workspaceFolder}/headers",
                 "${workspaceFolder}/main.c",
                 "${workspaceFolder}/codigo/*.c",
+=======
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/main.c",
+                "${workspaceFolder}/src/**/*.c",
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
                 "-o",
                 "${workspaceFolder}/main"
             ],
@@ -22,7 +28,11 @@
                 "command": "bash",
                 "args": [
                     "-lc",
+<<<<<<< HEAD
                     "gcc -fdiagnostics-color=always -g -I \"${workspaceFolder}/headers\" \"${workspaceFolder}/main.c\" $(find \"${workspaceFolder}/codigo\" -type f -name '*.c') -o \"${workspaceFolder}/main\""
+=======
+                    "gcc -fdiagnostics-color=always -g -I \"${workspaceFolder}/src\" \"${workspaceFolder}/main.c\" $(find \"${workspaceFolder}/src\" -type f -name '*.c') -o \"${workspaceFolder}/main\""
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
                 ]
             },
             "windows": {
@@ -32,7 +42,11 @@
                     "-ExecutionPolicy",
                     "Bypass",
                     "-Command",
+<<<<<<< HEAD
                     "$src = Get-ChildItem -Path \"${workspaceFolder}\\codigo\" -Recurse -Filter *.c | ForEach-Object { $_.FullName }; & \"C:\\msys64\\ucrt64\\bin\\gcc.exe\" \"-fdiagnostics-color=always\" \"-g\" \"-I\" \"${workspaceFolder}\\headers\" \"${workspaceFolder}\\main.c\" $src \"-o\" \"${workspaceFolder}\\main.exe\""
+=======
+                    "$src = Get-ChildItem -Path \"${workspaceFolder}\\src\" -Recurse -Filter *.c | ForEach-Object { $_.FullName }; & \"C:\\msys64\\ucrt64\\bin\\gcc.exe\" \"-fdiagnostics-color=always\" \"-g\" \"-I\" \"${workspaceFolder}\\src\" \"${workspaceFolder}\\main.c\" $src \"-o\" \"${workspaceFolder}\\main.exe\""
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
                 ]
             },
             "problemMatcher": [

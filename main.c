@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 #include <string.h>
 #include <time.h>
 
@@ -9,10 +10,17 @@
 
 #include "headers/uteis.h"
 
+=======
+#include <time.h>
+
+#include "supermercado/supermercado.h"
+#include "uteis/uteis.h"
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
 
 #define FICHEIRO_PRODUTOS "dados/produtos.txt"
 #define FICHEIRO_CLIENTES "dados/clientes.txt"
 #define FICHEIRO_FUNCIONARIOS "dados/funcionarios.txt"
+<<<<<<< HEAD
 
 #define FICHEIRO_DADOS "dados/Dados.txt"
 #define FICHEIRO_CONFIGURACAO "dados/Configuracao.txt"
@@ -211,16 +219,57 @@ int main()
     if (!Lidl)
     {
         throwError("Erro ao criar o supermercado!\nReinicie o programa e tente novamente.");
+=======
+#define FICHEIRO_DADOS "dados/Dados.txt"
+#define FICHEIRO_CONFIGURACAO "dados/Configuracao.txt"
+
+static long long diff_ms(struct timespec start, struct timespec end)
+{
+    return (end.tv_sec - start.tv_sec) * 1000LL +
+           (end.tv_nsec - start.tv_nsec) / 1000000LL;
+}
+
+static void executar_aplicacao(Supermercado *supermercado)
+{
+    while (!Supermercado_E_Para_Fechar(supermercado))
+    {
+        ExecutarSimulacao(supermercado);
+        wait_segundos(1);
+    }
+}
+
+int main(void)
+{
+    printf("Projeto ED - 25-26!\n");
+
+    srand((unsigned int)time(NULL));
+
+    Supermercado *supermercado = CriarSupermercado("Lidl");
+    if (!supermercado)
+    {
+        throwError("Erro ao criar o supermercado!\nReinicie o programa e tente novamente.");
+        return EXIT_FAILURE;
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
     }
 
     struct timespec start, end;
     clock_gettime(CLOCK_MONOTONIC, &start);
 
+<<<<<<< HEAD
     InicializarSupermercado(Lidl, FICHEIRO_CLIENTES, FICHEIRO_FUNCIONARIOS, FICHEIRO_PRODUTOS, FICHEIRO_DADOS, FICHEIRO_CONFIGURACAO);
+=======
+    if (!InicializarSupermercado(supermercado, FICHEIRO_CLIENTES, FICHEIRO_FUNCIONARIOS, FICHEIRO_PRODUTOS, FICHEIRO_DADOS, FICHEIRO_CONFIGURACAO))
+    {
+        printf("Erro ao inicializar o supermercado.\n");
+        DestruirSupermercado(supermercado);
+        return EXIT_FAILURE;
+    }
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
 
     clock_gettime(CLOCK_MONOTONIC, &end);
     printf("Tempo para carregar dados: %lld ms\n", diff_ms(start, end));
 
+<<<<<<< HEAD
     //imprimirListaPessoas(Lidl->L_funcionarios);
     //listarHashClientes(Lidl->H_Clientes);
     //listarHashProdutos(Lidl->H_Produtos);
@@ -254,3 +303,10 @@ int main()
 
     return 0;
 }
+=======
+    executar_aplicacao(supermercado);
+
+    DestruirSupermercado(supermercado);
+    return EXIT_SUCCESS;
+}
+>>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
