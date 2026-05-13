@@ -9,6 +9,7 @@ typedef struct
     ListaClientes clientes;
 } Caixa;
 
+void inicializarCaixa(Caixa *caixa);
 void imprimirCaixa(Caixa *c);
 void adicionarClienteCaixa(Cliente *cliente, Caixa *caixa);
 void removerClienteCaixa(Cliente *cliente, Caixa *caixa);

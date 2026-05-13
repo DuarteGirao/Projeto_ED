@@ -3,6 +3,90 @@
 
 extern int Aleatorio(int min, int max);
 
+static int LinhaIgnorada(const char *linha)
+{
+    return !linha || linha[0] == '\0' || linha[0] == '\n' || linha[0] == '<' || linha[0] == '=' || linha[0] == '>';
+}
+
+static void DestruirListaPessoasComConteudo(ListaPessoas *lista)
+{
+    if (!lista)
+    {
+        return;
+    }
+
+    ItemPessoa *atual = lista->inicio;
+    while (atual)
+    {
+        ItemPessoa *prox = atual->prox;
+        apagarPessoa(atual->pessoa);
+        free(atual);
+        atual = prox;
+    }
+
+    free(lista);
+}
+
+static void DestruirHashClientesComConteudo(HashingClientes *hash)
+{
+    if (!hash)
+    {
+        return;
+    }
+
+    for (int i = 0; i < TAMANHO_HASHING; i++)
+    {
+        ListaClientes *lista = hash->tabela[i];
+        if (!lista)
+        {
+            continue;
+        }
+
+        ItemCliente *atual = lista->inicio;
+        while (atual)
+        {
+            ItemCliente *prox = atual->prox;
+            apagarCliente(atual->cliente);
+            free(atual);
+            atual = prox;
+        }
+
+        free(lista);
+    }
+
+    free(hash);
+}
+
+static void DestruirHashProdutosComConteudo(HashingProdutos *hash)
+{
+    if (!hash)
+    {
+        return;
+    }
+
+    for (int i = 0; i < TAMANHO_HASHING; i++)
+    {
+        ListaProdutos *lista = hash->tabela[i];
+        if (!lista)
+        {
+            continue;
+        }
+
+        ItemProduto *atual = lista->inicio;
+        while (atual)
+        {
+            ItemProduto *prox = atual->prox;
+            apagarProduto(atual->produto);
+            free(atual);
+            atual = prox;
+        }
+
+        free(lista);
+    }
+
+    free(hash);
+}
+
 //---------------------------------------------
 
 Supermercado *CriarSupermercado(char *nome)
@@ -53,9 +137,16 @@ int CarregarProdutos(Supermercado *S, const char *nf)
 
     while (fgets(linha, sizeof(linha), f)) 
     {
+        if (LinhaIgnorada(linha))
+        {
+            continue;
+        }
 
-        sscanf(linha, "%d\t%[^\t]\t%f\t%f\t%f",
-               &id, nome, &preco, &tempoCompra, &tempoCaixa);
+        if (sscanf(linha, "%d\t%[^\t]\t%f\t%f\t%f",
+               &id, nome, &preco, &tempoCompra, &tempoCaixa) != 5)
+        {
+            continue;
+        }
         
         if (preco > S->max_preco)
         {
@@ -106,9 +197,16 @@ int CarregarClientes(Supermercado *S, const char *nf)
 
     while (fgets(linha, sizeof(linha), f)) 
     {
+        if (LinhaIgnorada(linha))
+        {
+            continue;
+        }
 
-        sscanf(linha, "%d\t%[^\t]",
-               &id, nome);
+        if (sscanf(linha, "%d\t%[^\t]",
+               &id, nome) != 2)
+        {
+            continue;
+        }
 
         Cliente *c = criarCliente(id, nome);
         inserirHashClientes(S->H_Clientes, c);
@@ -135,9 +233,16 @@ int CarregarFuncionarios(Supermercado *S, const char *nf)
 
     while (fgets(linha, sizeof(linha), f)) 
     {
+        if (LinhaIgnorada(linha))
+        {
+            continue;
+        }
 
-        sscanf(linha, "%d\t%[^\t]",
-               &id, nome);
+        if (sscanf(linha, "%d\t%[^\t]",
+               &id, nome) != 2)
+        {
+            continue;
+        }
 
         Pessoa *p = criarPessoa(id, nome);
         adicionarListaPessoa(S->L_funcionarios, p);
@@ -201,6 +306,11 @@ int CarregarConfiguracoes(Supermercado *S, const char *nf)
     {
         DebugPrint(__FUNCTION__,"Erro ao iniciar as caixas");
         return 0;
+    }
+
+    for (int i = 0; i < S->n_caixas; i++)
+    {
+        inicializarCaixa(&S->Caixas[i]);
     }
 
     return 1;
@@ -323,11 +433,25 @@ int Supermercado_E_Para_Fechar(Supermercado *S)
 
 void DestruirSupermercado(Supermercado *S)
 {
-    free(S->Rolex);
-    free(S);
+    if (!S)
+    {
+        return;
+    }
 
-    //TODO
-    //Destruir caixas
-    //Destruir clientes
-    //Destruir Produtos
+    if (S->Caixas)
+    {
+        for (int i = 0; i < S->n_caixas; i++)
+        {
+            esvaziarListaClientes(&S->Caixas[i].clientes);
+        }
+
+        free(S->Caixas);
+    }
+
+    DestruirHashClientesComConteudo(S->H_Clientes);
+    DestruirHashProdutosComConteudo(S->H_Produtos);
+    DestruirListaPessoasComConteudo(S->L_funcionarios);
+    DestruirRelogio(S->Rolex);
+
+    free(S);
 }

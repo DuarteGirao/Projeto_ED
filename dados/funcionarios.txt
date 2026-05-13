@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 1670	Ana Francisca Lemos Martins
 4322	Joana Manies Ferreira Bastos
 2856	Ana Beatriz Campos Pereira
@@ -178,5 +177,4 @@
 4698	Raquel Ines Silva Henriques
 1821	Maria Raquel Marques Oliveira
 1838	Ana Filipa Castanho Ferreira
->>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
 7734	Francisca Margarida Costa

@@ -16,6 +16,11 @@
 Produto *criarProduto(int id, const char *nome, float preco, float temppoCompra, float tempoCaixa) 
 {
     Produto *p = (Produto*) malloc(sizeof(Produto));
+    if (!p)
+    {
+        return NULL;
+    }
+
     strncpy(p->nome, nome, MAX_NOME);
     p->id = id;
     p->nome[MAX_NOME - 1] = '\0';
@@ -106,7 +111,7 @@ void imprimirListaProdutos(ListaProdutos *l)
 
     while (aux != NULL) {
         imprimirProduto(aux->produto);
-        printf(" | Quantidade: %.d\n", aux->quantidade);
+        printf(" | Quantidade: %d\n", aux->quantidade);
 
         aux = aux->prox;
     }

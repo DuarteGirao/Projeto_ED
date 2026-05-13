@@ -4,7 +4,12 @@
 Relogio *CriarRelogio(int _velocidade)
 {
     Relogio *R = (Relogio *)malloc(sizeof(Relogio));
-    //R->Tinicio =
+    if (!R)
+    {
+        return NULL;
+    }
+
+    R->Tinicio = time(NULL);
     R->Velocidade = _velocidade;
     return R;
 }
@@ -14,6 +19,10 @@ void DestruirRelogio(Relogio *R)
 }
 time_t GetTempo(Relogio *R)
 {
-    //return R->Tinicio + R->Velocidade * (Agora - R->Tinicio);
-    return 0;
+    if (!R)
+    {
+        return 0;
+    }
+
+    return time(NULL);
 }

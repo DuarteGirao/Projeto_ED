@@ -161,10 +161,10 @@ void removerListaPessoa(ListaPessoas *l, Pessoa *p)
             l->n_pessoas--;
             continue;
         }
-    }
 
-    anterior = atual;
-    atual = atual->prox;
+        anterior = atual;
+        atual = atual->prox;
+    }
 }
 
 ItemPessoa *ProcurarListaPessoa(ListaPessoas *l, int id)

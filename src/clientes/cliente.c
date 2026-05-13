@@ -16,8 +16,19 @@ Cliente* criarCliente(int id, const char *nome) {
     if (!c) return NULL;
 
     c->pessoa = criarPessoa(id, nome);
+    if (!c->pessoa)
+    {
+        free(c);
+        return NULL;
+    }
 
     c->produtos = criarListaProdutos();
+    if (!c->produtos)
+    {
+        apagarPessoa(c->pessoa);
+        free(c);
+        return NULL;
+    }
 
     c->tempo_entrada = time(NULL);
 
@@ -200,11 +211,11 @@ void removerListaCliente(ListaClientes *l, Cliente *c)
 
             l->n_clientes--;
             continue;
-            }
-    }
+        }
 
-    anterior = atual;
-    atual = atual->prox;
+        anterior = atual;
+        atual = atual->prox;
+    }
 }
 
 //TODO: Usar árvores

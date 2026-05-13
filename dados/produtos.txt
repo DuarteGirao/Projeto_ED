@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 10001	Azeitona Verde Retalhada com Ervas [marcaB] 300 gr	3	12	3.2
 10002	Croutons Pão Tostado [marcaB] 150 gr	1.69	6.2	2.3
 10003	Azeitona Mista Britada com Ervas Aromáticas [marcaB] 300 gr	2	14.6	1.5
@@ -19324,4 +19323,3 @@
 51092	Bolacha Ottimini Limão [marcaBé!] 400G	2.39	10.8	3.2
 51093	Bolacha Maria Choco [marcaBé!] 265 G	1.59	3.7	0.6
 51094	Bolacha Dibus Space Angry Birds [marcaBé!] 315 G	1.89	28.1	2.1
->>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)

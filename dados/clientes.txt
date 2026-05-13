@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 609140	Carla Aguiar Pires
 814991	Ricardo Andrade Matos
 843818	Eduardo Carneiro Castro
@@ -19998,5 +19997,4 @@
 374717	Clarice Macedo Martins
 412357	Valdemar Aguiar Rego
 663959	Catarina Seixas Cardoso
->>>>>>> 7726d3b (Implementação das estruturas e funções para gerenciamento de clientes, produtos e supermercado)
 569306	Eduarda Mora Carrasco
