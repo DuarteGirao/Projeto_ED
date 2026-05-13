@@ -1,0 +1,21 @@
+5               // Numero de caixas
+Caixa1 : 1      // Caixa1 está activa
+1               // Numero de clientes
+P1 : 5          //Cliente P1 com 5 produtos
+Caixa2 : 1      // Caixa2 está activa
+5               // Numero de clientes
+P21 : 3         //Cliente P21 com 3 produtos
+P22 : 1         //Cliente P22 com 1 produtos
+P23 : 3         //Cliente P23 com 3 produtos
+P24 : 2         //Cliente P24 com 2 produtos
+P25 : 4         //Cliente P25 com 4 produtos
+Caixa3 : 1      // Caixa3 está activa
+2               // Numero de clientes
+P31 : 3         //Cliente P31 com 3 produtos
+P32 : 2         //Cliente P32 com 2 produtos
+Caixa4 : 0      // Caixa4 está desactivada
+0               //Numero de clientes
+Caixa5 : 1      // Caixa5 está activa
+2               // Numero de clientes
+P51 : 3         //Cliente P51 com 3 produtos
+P52 : 6         //Cliente P52 com 6 produtos

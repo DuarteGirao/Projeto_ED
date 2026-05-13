@@ -10,6 +10,8 @@ typedef struct {
     int id;
     char nome[MAX_NOME];
     float preco;
+    float temppoCompra;
+    float tempoCaixa;
 } Produto;
 
 typedef struct ItemProduto{
@@ -30,7 +32,7 @@ typedef struct {
 
 //----------------Funções
 //Produtos
-Produto *criarProduto(int id, const char *nome, float preco);
+Produto *criarProduto(int id, const char *nome, float preco, float temppoCompra, float tempoCaixa);
 void imprimirProduto(Produto *p);
 void apagarProduto(Produto *p);
 
@@ -41,15 +43,15 @@ void imprimirListaProdutos(ListaProdutos *l);
 void removerListaProduto(ListaProdutos *l, Produto *p, int quantidade);
 void esvaziarListaProdutos(ListaProdutos *l);
 // int encherListaProdutos(ListaProdutos *l);
-ItemProduto *ProcurarProduto(ListaProdutos *l, int id);
+ItemProduto *ProcurarListaProduto(ListaProdutos *l, int id);
 void destruirListaProdutos(ListaProdutos *l);
 
 //Hashing
-int gethash(int id);
-HashingProdutos *inicializarHash();
-void inserirHash(HashingProdutos *h, Produto *p, int quantidade);
-ItemProduto* procurarHash(HashingProdutos *h, int id);
-void destruirHash(HashingProdutos *h);
-void listarHash(HashingProdutos *h);
+int getHashProdutos(int id);
+HashingProdutos *inicializarHashProdutos();
+void inserirHashProdutos(HashingProdutos *h, Produto *p, int quantidade);
+ItemProduto* procurarHashProdutos(HashingProdutos *h, int id);
+void destruirHashProdutos(HashingProdutos *h);
+void listarHashProdutos(HashingProdutos *h);
 
 #endif

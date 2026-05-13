@@ -14,13 +14,15 @@
 #include "../headers/produto.h"
 #include "../headers/uteis.h"
 
-Produto *criarProduto(int id, const char *nome, float preco) {
-
+Produto *criarProduto(int id, const char *nome, float preco, float temppoCompra, float tempoCaixa) 
+{
     Produto *p = (Produto*) malloc(sizeof(Produto));
     strncpy(p->nome, nome, MAX_NOME);
     p->id = id;
     p->nome[MAX_NOME - 1] = '\0';
     p->preco = preco;
+    p->temppoCompra = temppoCompra;
+    p->tempoCaixa = tempoCaixa;
     return p;
 }
 
@@ -43,7 +45,7 @@ ListaProdutos *criarListaProdutos()
 
 void adicionarListaProduto(ListaProdutos *l, Produto *p, int quantidade)
 {
-    if (!l || !p) return;
+    if (!l || !p || quantidade <= 0) return;
 
     ItemProduto *aux = l->inicio;
 
@@ -73,7 +75,7 @@ void adicionarListaProduto(ListaProdutos *l, Produto *p, int quantidade)
         }
         else if (aux->produto->id == p->id)
         {
-            throwError(("2 PRODUTOS DIFERENTES COM O MESMO ID NA FUNCAO [%s]", __FUNCTION__));
+            throwError("2 PRODUTOS DIFERENTES COM O MESMO ID NA FUNCAO [adicionarListaProduto]");
         }
 
         anterior = aux;
@@ -199,14 +201,15 @@ void removerListaProduto(ListaProdutos *l, Produto *p, int quantidade) {
 //
 //     for (int i = 0; i < 20; i++)
 //     {
-//         Produto *p = criarProduto(i, produtos[i], (float)numAleatorio(100,1000)/100);
-//         adicionarListaProduto(L, p, numAleatorio(5,20));
+//         Produto *p = criarProduto(i, produtos[i], (float)Aleatorio(100,1000)/100);
+//         adicionarListaProduto(L, p, Aleatorio(5,20));
 //     }
 //
 //     return 1;
 // }
 
-ItemProduto *ProcurarProduto(ListaProdutos *l, int id)
+//TODO:usar arvores
+ItemProduto *ProcurarListaProduto(ListaProdutos *l, int id)
 {
     if (!l->inicio || id < 0 || !l->inicio->produto) 
         return NULL; 
@@ -245,27 +248,27 @@ void destruirListaProdutos(ListaProdutos *l)
 //------------------------------Hashing
 
 
-int gethash(int id) 
+int getHashProdutos(int id) 
 {
     return id % TAMANHO_HASHING;
 }
 
 
-void inserirHash(HashingProdutos *h, Produto *p, int quantidade) 
+void inserirHashProdutos(HashingProdutos *h, Produto *p, int quantidade) 
 {
     if (!h || !p || quantidade <=0)
     {
         return;
     }
     
-    int indice = gethash(p->id);
+    int indice = getHashProdutos(p->id);
 
     adicionarListaProduto(h->tabela[indice], p, quantidade);
 }
 
-ItemProduto* procurarHash(HashingProdutos *h, int id) 
+ItemProduto* procurarHashProdutos(HashingProdutos *h, int id) 
 {
-    int indice = gethash(id);
+    int indice = getHashProdutos(id);
 
     if (!h || !h->tabela[indice])
     {
@@ -273,11 +276,11 @@ ItemProduto* procurarHash(HashingProdutos *h, int id)
     }
 
     //TODO: usar àrvores
-    return ProcurarProduto(h->tabela[indice], id);
+    return ProcurarListaProduto(h->tabela[indice], id);
 
 }
 
-HashingProdutos *inicializarHash() 
+HashingProdutos *inicializarHashProdutos() 
 {
     HashingProdutos *h = (HashingProdutos*) malloc(sizeof(HashingProdutos));
 
@@ -300,7 +303,7 @@ HashingProdutos *inicializarHash()
     return h;
 }
 
-void destruirHash(HashingProdutos *h)
+void destruirHashProdutos(HashingProdutos *h)
 {
     if (!h) return;
 
@@ -313,12 +316,12 @@ void destruirHash(HashingProdutos *h)
     free(h);
 }
 
-void listarHash(HashingProdutos *h)
+void listarHashProdutos(HashingProdutos *h)
 {
     if (!h) return;
     for (int i = 0; i < TAMANHO_HASHING; i++)
     {
-        printf("\n\nHash nº[%d]",i);
+        printf("\n\nHash nº[%d]\n",i);
         imprimirListaProdutos(h->tabela[i]);
     }
 

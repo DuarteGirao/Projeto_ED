@@ -2,15 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <locale.h>
 
-#include "headers/produto.h"
-#include "headers/cliente.h"
+// #include "headers/produto.h"
+// #include "headers/cliente.h"
+#include "headers/supermercado.h"
 
 #include "headers/uteis.h"
 
 
 #define FICHEIRO_PRODUTOS "dados/produtos.txt"
+#define FICHEIRO_CLIENTES "dados/clientes.txt"
+#define FICHEIRO_FUNCIONARIOS "dados/funcionarios.txt"
+
+#define FICHEIRO_DADOS "dados/Dados.txt"
+#define FICHEIRO_CONFIGURACAO "dados/Configuracao.txt"
+
+
+int Menu()
+{
+    printf("1 - Listar\n");
+    //-------
+    int OP = LerInteiro("Qual a Opcao ?");
+    return OP;
+}
+void ExecutaAccoesMenu(Supermercado *S)
+{
+    int OP = Menu();
+    switch(OP)
+    {
+        case 1: //ListarCliente(S->LCientes); break;
+        case 0: break;
+    }
+
+}
+
 
 long long diff_ms(struct timespec start, struct timespec end) {
     return (end.tv_sec - start.tv_sec) * 1000LL +
@@ -24,7 +49,7 @@ int transferirStock(HashingProdutos *HashStock, Cliente *C, int id, int quantida
         return 0;
     }
 
-    ItemProduto *item = procurarHash(HashStock, id);
+    ItemProduto *item = procurarHashProdutos(HashStock, id);
 
     if (item && item->quantidade >0)
     {
@@ -55,44 +80,9 @@ int transferirStock(HashingProdutos *HashStock, Cliente *C, int id, int quantida
     return 1;
 }
 
-int carregarDadosProdutos(const char *nf, HashingProdutos *hashProdutos)
-{
-    FILE *f = fopen(nf, "r");
-
-    if (f == NULL) {
-        printf("Erro ao abrir ficheiro!\n");
-        return 0;
-    }
-    char linha[256];
-
-    int id;
-    char nome[100];
-    float preco, extra1, extra2;
-
-    while (fgets(linha, sizeof(linha), f)) 
-    {
-
-        sscanf(linha, "%d\t%[^\t]\t%f\t%f\t%f",
-               &id, nome, &preco, &extra1, &extra2);
-
-        Produto *p = criarProduto(id, nome, preco);
-        inserirHash(hashProdutos, p, numAleatorio(5,20));
-    }
-
-    fclose(f);
-    return 1;
-}
 
 int main() 
 {
-    #ifdef _WIN32
-    setlocale(LC_ALL, "Portuguese_Portugal.1252");
-    #else
-    setlocale(LC_ALL, "pt_PT.UTF-8");
-    #endif
-
-    srand(time(NULL));
-
     //############################ TESTES ############################
 
     // {
@@ -182,29 +172,85 @@ int main()
 
 
     //hashing
-    HashingProdutos *StockProdutos = inicializarHash();
-    if (!StockProdutos)
-    {
-        printf("ERRO ao criar hashing");
-        return 0;
-    }
+    // HashingProdutos *StockProdutos = inicializarHashProdutos();
+    // if (!StockProdutos)
+    // {
+    //     printf("ERRO ao criar hashing");
+    //     return 0;
+    // }
 
 
 
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
-
-    carregarDadosProdutos(FICHEIRO_PRODUTOS, StockProdutos);
-
-    clock_gettime(CLOCK_MONOTONIC, &end);
-    printf("Tempo para carregar dados: %lld ms\n", diff_ms(start, end));
 
     //listarHash(StockProdutos);
 
 
     
-    destruirHash(StockProdutos);
-    
+    // destruirHashProdutos(StockProdutos);
+
+
+    // int x = LerInteiro("introduza um número: ");
+    // printf("[%d]\n",x);
+
+    // for (int i = 'a'; i <= 'z'; i++)
+    // {
+    //     printf("[%c]\n",ToMaiscula(i));
+    // }
+
+
     //############################ TESTES ############################
+	
+	
+    printf("Projeto ED - 25-26!\n");
+    
+    //Cria uma nova seed aleatória, de forma que a função rand() gere números novos todas as execuções
+    srand(time(NULL));
+
+
+    Supermercado *Lidl = CriarSupermercado("Lidal");
+    if (!Lidl)
+    {
+        throwError("Erro ao criar o supermercado!\nReinicie o programa e tente novamente.");
+    }
+
+    struct timespec start, end;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
+    InicializarSupermercado(Lidl, FICHEIRO_CLIENTES, FICHEIRO_FUNCIONARIOS, FICHEIRO_PRODUTOS, FICHEIRO_DADOS, FICHEIRO_CONFIGURACAO);
+
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    printf("Tempo para carregar dados: %lld ms\n", diff_ms(start, end));
+
+    //imprimirListaPessoas(Lidl->L_funcionarios);
+    //listarHashClientes(Lidl->H_Clientes);
+    //listarHashProdutos(Lidl->H_Produtos);
+
+
+    // printf("MAX_ESPERA: %f\n",Lidl->max_espera);
+    // printf("N_CAIXAS: %d\n",Lidl->n_caixas);
+    // printf("TEMPO_ATENDIMENTO_PRODUTO: %f\n",Lidl->tempo_atendimento_produto);
+    // printf("MAX_PRECO: %f\n",Lidl->max_preco);
+    // printf("MAX_FILA: %d\n",Lidl->max_fila);
+    // printf("MIN_FILA: %d\n",Lidl->min_fila);
+
+
+
+    // int Terminar = 0;
+    int Terminar = 1;
+    while (!Terminar)
+    {
+        if (TeclaPressionada())
+        {
+            ExecutaAccoesMenu(Lidl);
+        }
+        ExecutarSimulacao(Lidl);
+        wait_segundos(1);
+        Terminar = Supermercado_E_Para_Fechar(Lidl);
+    }
+    DestruirSupermercado(Lidl);
+
+
+
+
     return 0;
 }
