@@ -1,0 +1,22 @@
+Formato Dados.txt (meu exemplo)
+
+Caixa1 : 1      // Caixa1 está activa
+F123            // Funcionario nº 123
+1               // Numero de clientes
+Cli234          // Cliente nº234
+Pro3 : 3        // Produto nº3, quantidade 3
+Pro4 : 7        // Produto nº4, quantidade 7
+Pro5 : 6        // Produto nº5, quantidade 6
+
+Caixa2 : 1      // Caixa2 está activa
+F456            // Funcionario nº 456
+2               // Numero de clientes
+Cli345          // Cliente nº345
+Pro1 : 3        // Produto nº1, quantidade 3
+Pro2 : 4        // Produto nº2, quantidade 4
+Cli567          // Cliente nº567
+Pro21 : 8        // Produto nº21, quantidade 8
+Pro7 : 1        // Produto nº7, quantidade 1
+
+Caixa4 : 0      // Caixa4 está desactivada
+0               // Numero de clientes

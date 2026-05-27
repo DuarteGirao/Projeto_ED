@@ -1,0 +1,60 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build C Project (Windows/Linux)",
+            "command": "gcc",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "-I",
+                "${workspaceFolder}/headers",
+                "${workspaceFolder}/main.c",
+                "${workspaceFolder}/codigo/*.c",
+                "-o",
+                "${workspaceFolder}/main"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-lc",
+                    "gcc -fdiagnostics-color=always -g -I \"${workspaceFolder}/headers\" \"${workspaceFolder}/main.c\" $(find \"${workspaceFolder}/codigo\" -type f -name '*.c') -o \"${workspaceFolder}/main\""
+                ]
+            },
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-Command",
+                    "$src = Get-ChildItem -Path \"${workspaceFolder}\\codigo\" -Recurse -Filter *.c | ForEach-Object { $_.FullName }; & \"C:\\msys64\\ucrt64\\bin\\gcc.exe\" \"-fdiagnostics-color=always\" \"-g\" \"-I\" \"${workspaceFolder}\\headers\" \"${workspaceFolder}\\main.c\" $src \"-o\" \"${workspaceFolder}\\main.exe\""
+                ]
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Run Program",
+            "command": "${workspaceFolder}/main",
+            "windows": {
+                "command": "${workspaceFolder}\\main.exe"
+            },
+            "linux": {
+                "command": "${workspaceFolder}/main"
+            },
+            "dependsOn": "Build C Project (Windows/Linux)",
+            "problemMatcher": []
+        }
+    ]
+}
